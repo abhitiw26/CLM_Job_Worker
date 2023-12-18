@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="36dc134" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.3.0" camunda:diagramRelationId="a83c5ade-8c5f-4083-a194-292287e36a56">
+  <bpmn:process id="CLM-Post-OnBoarding" name="CLM-Post-OnBoarding" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:outgoing>Flow_102ory7</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_102ory7" sourceRef="StartEvent_1" targetRef="Activity_093d35f" />
+    <bpmn:endEvent id="Event_052fmsd" name="End">
+      <bpmn:incoming>Flow_1cw7apd</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1lxlii7" sourceRef="Activity_093d35f" targetRef="Event_1734a70" />
+    <bpmn:serviceTask id="Activity_093d35f" name="Generate Welcome KIT">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="welcome_kit" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_102ory7</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lxlii7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_16pdjuk" sourceRef="Activity_05xvnax" targetRef="Activity_0jwk8ne" />
+    <bpmn:serviceTask id="Activity_05xvnax" name="Transfer Corpus">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="transfer_corpus" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0rb65no</bpmn:incoming>
+      <bpmn:outgoing>Flow_16pdjuk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_06zfp7c" name="Provide Access to Client on Client&#39;s Portal">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="provide_access_to_client_portal" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0edcy7l</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rb65no</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0rb65no" sourceRef="Activity_06zfp7c" targetRef="Activity_05xvnax" />
+    <bpmn:intermediateThrowEvent id="Event_1734a70" name="Send email to User and RM on the Welcome KIT">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="=&#34;arijit.chanda@ltimindtree.com&#34;" target="TO" />
+          <zeebe:input source="=&#34;abhishek.tiwari3@ltimindtree.com&#34;" target="CC" />
+          <zeebe:input source="=&#34;abhishek.tiwari3@ltimindtree.com;kuruva.balaraju@ltimindtree.com&#34;" target="BCC" />
+          <zeebe:input source="=&#34;Welcome to EMIRATES INVESTMENT BANK&#34;" target="Subject" />
+          <zeebe:input source="=&#34;We are very excited and happy to get the opportunity to serve you as one of our respectable customers. Your account number is &#34; + P_ACCOUNT_CODE + &#34;. &#60;br&#62;Please go through the information attached to this welcome letter.&#60;br&#62;It contains access details to your subscribed service/product.&#34;" target="Body" />
+          <zeebe:input source="=&#34;Thank you very much for choosing us.&#60;br&#62;With Regards &#60;br&#62; Aditya Goyal &#60;br&#62;Your Relationship manager.&#60;br&#62;Ph - +91-9889889898&#34;" target="Footer" />
+          <zeebe:input source="=&#34;Dear Mr &#34;+upper case(substring before(TO,&#34;.&#34;))" target="Header" />
+          <zeebe:input source="=&#34;Welcome email&#34;" target="DisplayName" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1lxlii7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0edcy7l</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_0s67dlx" signalRef="Signal_2fjulqk" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_0edcy7l" sourceRef="Event_1734a70" targetRef="Activity_06zfp7c" />
+    <bpmn:sequenceFlow id="Flow_1cw7apd" sourceRef="Activity_0jwk8ne" targetRef="Event_052fmsd" />
+    <bpmn:serviceTask id="Activity_0jwk8ne" name="Complete Request State">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="clm:completeRequest" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_16pdjuk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cw7apd</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:signal id="Signal_2fjulqk" name="CLM-Mail-Notifiaction" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CLM-Post-OnBoarding">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="188" y="125" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_052fmsd_di" bpmnElement="Event_052fmsd">
+        <dc:Bounds x="932" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="940" y="125" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06dizye_di" bpmnElement="Activity_093d35f" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="290" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0cffy1r_di" bpmnElement="Activity_05xvnax">
+        <dc:Bounds x="660" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0dq55pp_di" bpmnElement="Activity_06zfp7c">
+        <dc:Bounds x="510" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00z4c7u_di" bpmnElement="Event_1734a70">
+        <dc:Bounds x="432" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="408" y="125" width="85" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0glwjyc_di" bpmnElement="Activity_0jwk8ne">
+        <dc:Bounds x="800" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_102ory7_di" bpmnElement="Flow_102ory7">
+        <di:waypoint x="218" y="100" />
+        <di:waypoint x="290" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lxlii7_di" bpmnElement="Flow_1lxlii7">
+        <di:waypoint x="390" y="100" />
+        <di:waypoint x="432" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16pdjuk_di" bpmnElement="Flow_16pdjuk">
+        <di:waypoint x="760" y="100" />
+        <di:waypoint x="800" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rb65no_di" bpmnElement="Flow_0rb65no">
+        <di:waypoint x="610" y="100" />
+        <di:waypoint x="660" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0edcy7l_di" bpmnElement="Flow_0edcy7l">
+        <di:waypoint x="468" y="100" />
+        <di:waypoint x="510" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cw7apd_di" bpmnElement="Flow_1cw7apd">
+        <di:waypoint x="900" y="100" />
+        <di:waypoint x="932" y="100" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

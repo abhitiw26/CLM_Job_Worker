@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_0okva2n" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Web Modeler" exporterVersion="79ad570" camunda:diagramRelationId="e23ffd55-a679-43e3-afe3-5807c8d415d4" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.3.0">
+  <decision id="Decision_NumberOfApprovals" name="Number of approvals">
+    <decisionTable id="DecisionTable_1dcj8l5">
+      <input id="Input_1" label="crr">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>crr</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Approvals Count" name="approvalCount" typeRef="number" biodi:width="191" />
+      <rule id="DecisionRule_0dase7d">
+        <inputEntry id="UnaryTests_1fvf1f5">
+          <text>"low"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10ff3iz">
+          <text>1</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0wtscio">
+        <inputEntry id="UnaryTests_1ug0bmh">
+          <text>"medium"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1jlmhdu">
+          <text>2</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_04bkcuy">
+        <inputEntry id="UnaryTests_15os8mc">
+          <text>"high"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1de1dx1">
+          <text>3</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_NumberOfApprovals">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

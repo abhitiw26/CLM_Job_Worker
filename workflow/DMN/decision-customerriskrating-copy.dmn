@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_16gsfoy" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Web Modeler" exporterVersion="79ad570" camunda:diagramRelationId="46824b42-7ebb-4602-973f-c4c7c1a6d92d" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.3.0">
+  <decision id="Decision_z7b27hn" name="Customer Risk Rating">
+    <decisionTable id="DecisionTable_16hy0wb" hitPolicy="FIRST">
+      <input id="Input_1" label="risk category size">
+        <inputExpression id="InputExpression_1" typeRef="number">
+          <text>riskSize</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1v80ewd" label="customer type">
+        <inputExpression id="LiteralExpression_0gh6s7w" typeRef="string">
+          <text>customerType</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1jwrtvw" label="risk country">
+        <inputExpression id="LiteralExpression_13h5veg" typeRef="string">
+          <text>riskCountry</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1stlf84" label="risk country" name="crr" typeRef="string" />
+      <rule id="DecisionRule_10cg7mg">
+        <inputEntry id="UnaryTests_0sxflu0">
+          <text>&gt;= 1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06agvim">
+          <text>"Resident Individual"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xfbphh">
+          <text>"Sudan","Zambia","Zimbabwe"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_09t7mi3">
+          <text>"high"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_012c2zr">
+        <inputEntry id="UnaryTests_1w0aj0h">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08p3s5t">
+          <text>"Non Resident Minor","Resident Individual"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_125qcjj">
+          <text>"Sudan","Zambia","Zimbabwe"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1mu34kg">
+          <text>"medium"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_16rgoah">
+        <inputEntry id="UnaryTests_1my3up4">
+          <text>0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yrdpfv">
+          <text>"Resident Individual"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19ahi76">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0h9gowv">
+          <text>"low"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_z7b27hn">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

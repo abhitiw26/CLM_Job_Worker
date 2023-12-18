@@ -1,0 +1,47 @@
+{"properties": [
+  {
+    "name": "clm.tasklist.url",
+    "type": "java.lang.String",
+    "description": "A description for 'clm.tasklist.url'"
+  },
+  {
+    "name": "clm.auth.audience",
+    "type": "java.lang.String",
+    "description": "A description for 'clm.auth.audience'"
+  },
+  {
+    "name": "clm.auth.url",
+    "type": "java.lang.String",
+    "description": "A description for 'clm.auth.url'"
+  },
+  {
+    "name": "clm.auth.clientSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'clm.auth.clientSecret'"
+  },
+  {
+    "name": "clm.auth.clientId",
+    "type": "java.lang.String",
+    "description": "A description for 'clm.auth.clientId'"
+  },
+  {
+    "name": "clm.auth.taskURL",
+    "type": "java.lang.String",
+    "description": "A description for 'clm.auth.taskURL'"
+  },
+  {
+    "name": "clm.auth.taskSearchURL",
+    "type": "java.lang.String",
+    "description": "A description for 'clm.auth.taskSearchURL'"
+  },
+  {
+    "name": "clm.auth.claimTaskURL",
+    "type": "java.lang.String",
+    "description": "A description for 'clm.auth.claimTaskURL'"
+  },
+  {
+    "name": "clm.auth.clientId",
+    "type": "java.lang.String",
+    "description": "A description for 'clm.auth.clientId'"
+  }
+]}

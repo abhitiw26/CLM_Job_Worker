@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_1oo5epk" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Web Modeler" exporterVersion="79ad570" camunda:diagramRelationId="64ce60ce-61b9-4d77-a4e1-57077ddd8c53" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.3.0">
+  <decision id="Decision_DocumentCheckList" name="DocumentCheckList">
+    <decisionTable id="DecisionTable_1dozki6">
+      <input id="Input_1" label="Client Category">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>clientCategory</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1svowaq" label="Client Type">
+        <inputExpression id="LiteralExpression_0xb0k26" typeRef="string">
+          <text>clientType</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_03e0ejs" label="Product" biodi:width="191">
+        <inputExpression id="LiteralExpression_12nm3j9" typeRef="string">
+          <text>productType</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Applicant Address proof" name="Applicant Address proof" typeRef="string" />
+      <output id="OutputClause_10km5ey" label="Applicant Identity Proof" name="Applicant Identity Proof" typeRef="string" />
+      <output id="OutputClause_02vnare" label="Guardian Address proof" name="Guardian Address proof" typeRef="string" />
+      <output id="OutputClause_18lt3gv" label="DOB proof" name="DOB proof" typeRef="string" />
+      <rule id="DecisionRule_0i4c4e6">
+        <inputEntry id="UnaryTests_08kan72">
+          <text>"Individual"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1viqzys">
+          <text>"Resident Individual"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0npkmsg">
+          <text>"Bank Account"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0pzn63x">
+          <text>"Aadhar/Passport/VoterId" </text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1kauph2">
+          <text>"Aadhar/PAN/Passport/Voter ID"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ceyaur">
+          <text>""</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19bwg5v">
+          <text>""</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ku13vl">
+        <inputEntry id="UnaryTests_06ugk84">
+          <text>"Individual"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0w6w57q">
+          <text>"Resident Individual"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00wbbte">
+          <text>"Depository Account"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ko94sr">
+          <text>"Aadhar / Passport / Voter ID/Bank ac statement"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rkjxaj">
+          <text>" Aadhar/PAN/Passport/Voter ID"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04g6xyg">
+          <text>""</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ugo19j">
+          <text>""</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_143s3ii">
+        <inputEntry id="UnaryTests_0296tf0">
+          <text>"Individual"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xs7us5">
+          <text>"Resident Minor"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1c5rai9">
+          <text>"Bank Account"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04v5zs6">
+          <text>"Aadhar / Passport /School certificate"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04s6mhm">
+          <text>"Aadhar/Passport/School ID"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wis02f">
+          <text>"Aadhar / Passport / Voter ID/Bank ac statement"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0s3ebub">
+          <text>"Birth certificate / School Certificate"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_042szqt">
+        <inputEntry id="UnaryTests_0u2hf55">
+          <text>"Individual"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0c6sjnj">
+          <text>"Non Resident"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ikynn2">
+          <text>"Bank Account"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10genq0">
+          <text>"Passport"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0iycljo">
+          <text>"Passport"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1w8iopr">
+          <text>""</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ts7tbg">
+          <text>""</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_DocumentCheckList">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

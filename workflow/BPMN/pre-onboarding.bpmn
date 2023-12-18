@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="36dc134" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.3.0" camunda:diagramRelationId="186324e3-7ca2-4335-8c00-022abfd55a7d">
+  <bpmn:collaboration id="Collaboration_1fbuw10">
+    <bpmn:participant id="Participant_0o5mkv3" name="Pre Onboarding" processRef="CLM-Pre-OnBoarding" />
+    <bpmn:textAnnotation id="TextAnnotation_1kf6m9b">
+      <bpmn:text>Generate Document Checklists based on Client type &amp; Product choosen. Client Type = Individual &amp; Non-Individual, Products = Bank Account, Trading Account, Depository Account</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_172b6d5">
+      <bpmn:text>Invoke Integration API to save Lead &amp; Request Id</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_18htpfj">
+      <bpmn:text>Assign the logged Id user which received from UI to assign the task</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_10wz33s" sourceRef="Account_Opening_Form_Document_Checklist_Activity" targetRef="TextAnnotation_1kf6m9b" />
+    <bpmn:association id="Association_043wlbx" sourceRef="Activity_0omtxj9" targetRef="TextAnnotation_172b6d5" />
+    <bpmn:association id="Association_11rnw16" sourceRef="Capture_SOW_Activity" targetRef="TextAnnotation_18htpfj" />
+  </bpmn:collaboration>
+  <bpmn:process id="CLM-Pre-OnBoarding" name="CLM-Pre-OnBoarding" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_0grza36">
+      <bpmn:lane id="Lane_1lrbue4" name="Account Opening Department">
+        <bpmn:flowNodeRef>Capture_SOW_Activity</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_18odr07</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0omtxj9</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_167q5dq" name="Account Opening Department">
+        <bpmn:flowNodeRef>Event_17dbvwn</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Account_Opening_Form_Document_Checklist_Activity</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1w5txk3</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:endEvent id="Event_17dbvwn" name="End">
+      <bpmn:incoming>Flow_0aqt9g1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Capture_SOW_Activity" name="Capture SOW">
+      <bpmn:extensionElements>
+        <zeebe:assignmentDefinition assignee="=P_USER_DTL.email" candidateGroups="Account Opening Department" />
+        <zeebe:taskSchedule dueDate="=now()+ duration(&#34;PT11M&#34;)" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=P_REQUEST_ID" target="T_REQ_ID" />
+          <zeebe:output source="=RISK_SIZE" target="P_RISK_SIZE" />
+          <zeebe:output source="=RISK_COUNTRY" target="P_RISK_COUNTRY" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0sk1pzb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pc267e</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Account_Opening_Form_Document_Checklist_Activity" name="Account Opening Form &#38; Document Checklist">
+      <bpmn:extensionElements>
+        <zeebe:assignmentDefinition candidateGroups="Account Opening Department" />
+        <zeebe:taskSchedule dueDate="=now()+ duration(&#34;PT12M&#34;)" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=P_REQUEST_ID" target="T_REQ_ID" />
+          <zeebe:output source="=CUSTOMER_TYPE" target="P_CUSTOMER_TYPE" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_043ljp1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gc8g8e</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:parallelGateway id="Gateway_1w5txk3" name="Join">
+      <bpmn:incoming>Flow_0gc8g8e</bpmn:incoming>
+      <bpmn:incoming>Flow_0pc267e</bpmn:incoming>
+      <bpmn:outgoing>Flow_0aqt9g1</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:outgoing>Flow_1arvwpc</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:parallelGateway id="Gateway_18odr07" name="Parallel">
+      <bpmn:incoming>Flow_1mji8k5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0sk1pzb</bpmn:outgoing>
+      <bpmn:outgoing>Flow_043ljp1</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:serviceTask id="Activity_0omtxj9" name="Save Request Id in DB Against Lead">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="save_request_db" />
+        <zeebe:ioMapping>
+          <zeebe:output source="=systemGeneratedId" target="P_systemGeneratedId" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1arvwpc</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mji8k5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0aqt9g1" sourceRef="Gateway_1w5txk3" targetRef="Event_17dbvwn" />
+    <bpmn:sequenceFlow id="Flow_0sk1pzb" sourceRef="Gateway_18odr07" targetRef="Capture_SOW_Activity" />
+    <bpmn:sequenceFlow id="Flow_0pc267e" sourceRef="Capture_SOW_Activity" targetRef="Gateway_1w5txk3" />
+    <bpmn:sequenceFlow id="Flow_043ljp1" sourceRef="Gateway_18odr07" targetRef="Account_Opening_Form_Document_Checklist_Activity" />
+    <bpmn:sequenceFlow id="Flow_0gc8g8e" sourceRef="Account_Opening_Form_Document_Checklist_Activity" targetRef="Gateway_1w5txk3" />
+    <bpmn:sequenceFlow id="Flow_1arvwpc" sourceRef="StartEvent_1" targetRef="Activity_0omtxj9" />
+    <bpmn:sequenceFlow id="Flow_1mji8k5" sourceRef="Activity_0omtxj9" targetRef="Gateway_18odr07" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1fbuw10">
+      <bpmndi:BPMNShape id="Participant_0o5mkv3_di" bpmnElement="Participant_0o5mkv3" isHorizontal="true">
+        <dc:Bounds x="112" y="160" width="968" height="420" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_167q5dq_di" bpmnElement="Lane_167q5dq" isHorizontal="true">
+        <dc:Bounds x="142" y="450" width="938" height="130" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1lrbue4_di" bpmnElement="Lane_1lrbue4" isHorizontal="true">
+        <dc:Bounds x="142" y="160" width="938" height="290" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17dbvwn_di" bpmnElement="Event_17dbvwn">
+        <dc:Bounds x="892" y="492" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="900" y="535" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1h90vrf_di" bpmnElement="Capture_SOW_Activity" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="450" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03z9tyx_di" bpmnElement="Account_Opening_Form_Document_Checklist_Activity" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="450" y="470" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_10x655e_di" bpmnElement="Gateway_1w5txk3">
+        <dc:Bounds x="725" y="485" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="740" y="542" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="172" y="322" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="178" y="365" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0xelqo8_di" bpmnElement="Gateway_18odr07">
+        <dc:Bounds x="365" y="315" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="371.5" y="291" width="37" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07o46cy_di" bpmnElement="Activity_0omtxj9">
+        <dc:Bounds x="240" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0aqt9g1_di" bpmnElement="Flow_0aqt9g1">
+        <di:waypoint x="775" y="510" />
+        <di:waypoint x="892" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0sk1pzb_di" bpmnElement="Flow_0sk1pzb">
+        <di:waypoint x="415" y="340" />
+        <di:waypoint x="450" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pc267e_di" bpmnElement="Flow_0pc267e">
+        <di:waypoint x="550" y="340" />
+        <di:waypoint x="750" y="340" />
+        <di:waypoint x="750" y="485" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_043ljp1_di" bpmnElement="Flow_043ljp1">
+        <di:waypoint x="390" y="365" />
+        <di:waypoint x="390" y="510" />
+        <di:waypoint x="450" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gc8g8e_di" bpmnElement="Flow_0gc8g8e">
+        <di:waypoint x="550" y="510" />
+        <di:waypoint x="725" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1arvwpc_di" bpmnElement="Flow_1arvwpc">
+        <di:waypoint x="208" y="340" />
+        <di:waypoint x="240" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mji8k5_di" bpmnElement="Flow_1mji8k5">
+        <di:waypoint x="340" y="340" />
+        <di:waypoint x="365" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1kf6m9b_di" bpmnElement="TextAnnotation_1kf6m9b">
+        <dc:Bounds x="230" y="600" width="289" height="70" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_172b6d5_di" bpmnElement="TextAnnotation_172b6d5">
+        <dc:Bounds x="410" y="80" width="300" height="27" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_18htpfj_di" bpmnElement="TextAnnotation_18htpfj">
+        <dc:Bounds x="770" y="80" width="391" height="27" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_10wz33s_di" bpmnElement="Association_10wz33s">
+        <di:waypoint x="450" y="535" />
+        <di:waypoint x="375" y="572" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_043wlbx_di" bpmnElement="Association_043wlbx">
+        <di:waypoint x="320" y="300" />
+        <di:waypoint x="462" y="107" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_11rnw16_di" bpmnElement="Association_11rnw16">
+        <di:waypoint x="549" y="305" />
+        <di:waypoint x="829" y="107" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

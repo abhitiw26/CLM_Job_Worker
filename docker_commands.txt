@@ -1,0 +1,27 @@
+#To Create docker Image. Execute the command in the same path where you have docker file
+docker build . -t arijit/clm-camunda-job-worker
+
+#To check local docker images
+docker images
+
+#To check docker container
+docker ps -a
+ 
+#To check log of a container
+docker logs <container id/container name>
+
+#To run a docker image as container
+docker run --name <container-name> -d -p<exposed port>:<application port> arijit/clm-camunda-job-worker
+docker run -d -p9080:9080 arijit/clm-camunda-job-worker
+
+#To stop a docker container
+docker stop <container id/container name>
+
+#To remove a docker container
+docker rm <container id/container name>
+
+#To start a docker container
+docker start <container id/container name>
+
+#To remove docker image
+docker image rm <image id>
